@@ -1,38 +1,40 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Search, Filter, Music2, Users, Clock, ArrowRight } from 'lucide-react';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { Search, Filter, Music2, Users, Clock, ArrowRight } from "lucide-react";
 
 export default function ActiveLobbiesPage() {
-  const navigate = useNavigate();
-  const [lobbyCode, setLobbyCode] = useState('');
-  
+  const router = useRouter();
+  const [lobbyCode, setLobbyCode] = useState("");
+
   const lobbies = [
     {
-      id: 'XYZ123',
+      id: "XYZ123",
       title: "Lo-Fi Beats Championship",
       host: "ChillBeats",
       type: "battle",
       participants: 24,
       deadline: "2h 15m",
       prize: "$500",
-      image: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?auto=format&fit=crop&q=80&w=2070",
+      image:
+        "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?auto=format&fit=crop&q=80&w=2070",
     },
     {
-      id: 'ABC456',
+      id: "ABC456",
       title: "Trap Music Feedback",
       host: "BeatMaster Pro",
       type: "feedback",
       participants: 18,
       deadline: "5h 30m",
       prize: "Free",
-      image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=80&w=2070",
+      image:
+        "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=80&w=2070",
     },
   ];
 
   const handleCodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (lobbyCode.trim()) {
-      navigate(`/battle/${lobbyCode.trim()}`);
+      router.push(`/battle/${lobbyCode.trim()}`);
     }
   };
 
@@ -42,7 +44,9 @@ export default function ActiveLobbiesPage() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold text-white">Active Lobbies</h1>
-            <p className="text-gray-400 mt-1">Join ongoing battles and feedback sessions</p>
+            <p className="text-gray-400 mt-1">
+              Join ongoing battles and feedback sessions
+            </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative">
@@ -62,8 +66,13 @@ export default function ActiveLobbiesPage() {
 
         {/* Lobby Code Input */}
         <div className="mb-8">
-          <form onSubmit={handleCodeSubmit} className="bg-gray-800 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-white mb-4">Have a Lobby Code?</h2>
+          <form
+            onSubmit={handleCodeSubmit}
+            className="bg-gray-800 rounded-lg p-6"
+          >
+            <h2 className="text-lg font-semibold text-white mb-4">
+              Have a Lobby Code?
+            </h2>
             <div className="flex gap-4">
               <input
                 type="text"
@@ -87,7 +96,7 @@ export default function ActiveLobbiesPage() {
           {lobbies.map((lobby) => (
             <div
               key={lobby.id}
-              onClick={() => navigate(`/battle/${lobby.id}`)}
+              onClick={() => router.push(`/battle/${lobby.id}`)}
               className="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-800/80 transition-colors cursor-pointer"
             >
               <div className="flex flex-col md:flex-row">
@@ -98,23 +107,31 @@ export default function ActiveLobbiesPage() {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute top-2 left-2">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      lobby.type === 'battle'
-                        ? 'bg-purple-500 text-white'
-                        : 'bg-blue-500 text-white'
-                    }`}>
-                      {lobby.type === 'battle' ? 'Battle' : 'Feedback'}
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        lobby.type === "battle"
+                          ? "bg-purple-500 text-white"
+                          : "bg-blue-500 text-white"
+                      }`}
+                    >
+                      {lobby.type === "battle" ? "Battle" : "Feedback"}
                     </span>
                   </div>
                 </div>
                 <div className="p-6 flex-1">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div>
-                      <h2 className="text-xl font-semibold text-white">{lobby.title}</h2>
-                      <p className="text-gray-400 mt-1">Hosted by {lobby.host}</p>
+                      <h2 className="text-xl font-semibold text-white">
+                        {lobby.title}
+                      </h2>
+                      <p className="text-gray-400 mt-1">
+                        Hosted by {lobby.host}
+                      </p>
                     </div>
                     <div className="mt-4 md:mt-0">
-                      <span className="text-xl font-bold text-purple-400">{lobby.prize}</span>
+                      <span className="text-xl font-bold text-purple-400">
+                        {lobby.prize}
+                      </span>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-4 mt-4">

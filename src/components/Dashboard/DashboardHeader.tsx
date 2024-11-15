@@ -1,9 +1,10 @@
-import React from 'react';
-import Link from 'next/link';
-import { Clock, Users, Trophy, Settings, ArrowLeft } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import { Clock, Users, Trophy, Settings, ArrowLeft } from "lucide-react";
 
 interface DashboardHeaderProps {
   battleId?: string;
+  isFeedbackLobby?: boolean;
 }
 
 export default function DashboardHeader({ battleId }: DashboardHeaderProps) {
@@ -20,7 +21,9 @@ export default function DashboardHeader({ battleId }: DashboardHeaderProps) {
       </div>
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Summer Beat Championship</h1>
+          <h1 className="text-2xl font-bold text-white">
+            Summer Beat Championship
+          </h1>
           <p className="text-gray-400 mt-1">Organized by BeatMaster Pro</p>
         </div>
         <div className="mt-4 lg:mt-0">

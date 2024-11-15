@@ -1,7 +1,13 @@
-import React from 'react';
-import { Vote, Lock, Timer } from 'lucide-react';
+import React from "react";
+import { Vote, Lock, Timer } from "lucide-react";
 
-export default function VotingPhaseControl() {
+interface VotingPhaseControlProps {
+  battleId: string;
+}
+
+export default function VotingPhaseControl({
+  battleId,
+}: VotingPhaseControlProps) {
   return (
     <div className="bg-gray-800 rounded-lg p-6">
       <h2 className="text-xl font-semibold text-white mb-4">Voting Phase</h2>

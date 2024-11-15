@@ -1,7 +1,11 @@
-import React from 'react';
-import { Play, MoreVertical, ThumbsUp } from 'lucide-react';
+import React from "react";
+import { Play, MoreVertical, ThumbsUp } from "lucide-react";
 
-export default function SubmissionsList() {
+interface SubmissionProps {
+  battleId: string;
+}
+
+export default function SubmissionsList({ battleId }: SubmissionProps) {
   const submissions = [
     {
       id: 1,
@@ -54,7 +58,9 @@ export default function SubmissionsList() {
                 <ThumbsUp className="w-4 h-4 text-purple-400" />
                 <span className="text-white">{submission.votes}</span>
               </div>
-              <span className="text-gray-400 text-sm">{submission.timestamp}</span>
+              <span className="text-gray-400 text-sm">
+                {submission.timestamp}
+              </span>
               <button className="p-1 hover:bg-gray-600 rounded-full transition-colors">
                 <MoreVertical className="w-4 h-4 text-gray-400" />
               </button>

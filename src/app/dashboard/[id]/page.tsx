@@ -1,14 +1,17 @@
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import DashboardHeader from '@/components/Dashboard/DashboardHeader';
-import SubmissionsList from '@/components/Dashboard/SubmissionsList';
-import VotingPhaseControl from '@/components/Dashboard/VotingPhaseControl';
-import StatsOverview from '@/components/Dashboard/StatsOverview';
-import FeedbackQueue from '@/components/Dashboard/FeedbackQueue';
+import { useParams } from "next/navigation";
+import DashboardHeader from "@/components/Dashboard/DashboardHeader";
+import SubmissionsList from "@/components/Dashboard/SubmissionsList";
+import VotingPhaseControl from "@/components/Dashboard/VotingPhaseControl";
+import StatsOverview from "@/components/Dashboard/StatsOverview";
+import FeedbackQueue from "@/components/Dashboard/FeedbackQueue";
 
 export default function DashboardPage() {
   const params = useParams();
+  if (!params) {
+    return <div>Error: No parameters found</div>;
+  }
   const id = params.id as string;
   const isFeedbackLobby = true; // TODO: Get this from API
 

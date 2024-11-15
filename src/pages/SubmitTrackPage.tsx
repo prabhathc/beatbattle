@@ -1,28 +1,37 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Upload, Music2, ArrowLeft, Info } from 'lucide-react';
-import AudioUploader from '../components/Submission/AudioUploader';
-import SubmissionForm from '../components/Submission/SubmissionForm';
+import React from "react";
+import { useRouter } from "next/router";
+import { ArrowLeft, Info } from "lucide-react";
+import AudioUploader from "../components/Submission/AudioUploader";
+import SubmissionForm from "../components/Submission/SubmissionForm";
 
 export default function SubmitTrackPage() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const { id } = router.query; // Access the `id` from the URL
+
+  // Ensure `id` is ready (since `router.query` can be empty initially during hydration)
+  if (!id) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 p-6">
       <div className="max-w-3xl mx-auto space-y-6">
+        {/* Back Button */}
         <button
-          onClick={() => navigate(`/battle/${id}`)}
+          onClick={() => router.push(`/battle/${id}`)}
           className="flex items-center text-purple-400 hover:text-purple-300 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-1" />
           Back to Battle
         </button>
 
+        {/* Form Section */}
         <div className="bg-gray-800 rounded-lg p-8">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-white">Submit Your Beat</h1>
-            <p className="text-gray-400 mt-2">Upload your track and provide details</p>
+            <p className="text-gray-400 mt-2">
+              Upload your track and provide details
+            </p>
           </div>
 
           <div className="space-y-8">
@@ -31,6 +40,7 @@ export default function SubmitTrackPage() {
           </div>
         </div>
 
+        {/* Submission Guidelines */}
         <div className="bg-blue-500/10 border border-blue-500 rounded-lg p-4">
           <div className="flex items-start space-x-3">
             <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />

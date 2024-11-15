@@ -1,16 +1,29 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useParams } from 'next/navigation';
-import { Music2, Users, Clock, Trophy, AudioLines, Copy, Zap, Upload, Image as ImageIcon, X } from 'lucide-react';
-import { loadStripe } from '@stripe/stripe-js';
-import Image from 'next/image';
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import {
+  Music2,
+  Users,
+  Clock,
+  Trophy,
+  AudioLines,
+  Copy,
+  Zap,
+  Upload,
+  Image as ImageIcon,
+  X,
+} from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
+import Image from "next/image";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 export default function LobbyPage() {
   const params = useParams();
-  const lobbyId = params.id as string;
+  const lobbyId = params?.id as string;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [artwork, setArtwork] = useState<File | null>(null);
@@ -55,9 +68,9 @@ export default function LobbyPage() {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     const file = e.dataTransfer.files[0];
-    if (file?.type.startsWith('audio/')) {
+    if (file?.type.startsWith("audio/")) {
       setAudioFile(file);
     }
   };
@@ -66,7 +79,7 @@ export default function LobbyPage() {
     e.preventDefault();
     setIsSubmitting(true);
     // TODO: Handle submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
   };
 
@@ -86,9 +99,14 @@ export default function LobbyPage() {
                 <Copy className="w-4 h-4 text-gray-400" />
               </button>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4">Summer Beat Championship</h1>
-            <p className="text-gray-400 mb-8">Create your best summer-themed beat and compete for the grand prize!</p>
-            
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+              Summer Beat Championship
+            </h1>
+            <p className="text-gray-400 mb-8">
+              Create your best summer-themed beat and compete for the grand
+              prize!
+            </p>
+
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               <div className="bg-gray-700/50 rounded-lg p-4">
                 <Users className="w-6 h-6 text-purple-400 mx-auto mb-2" />
@@ -112,8 +130,10 @@ export default function LobbyPage() {
         {/* Submission Form */}
         <div className="max-w-3xl mx-auto">
           <div className="bg-gray-800 rounded-lg p-6 sm:p-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">Submit Your Track</h2>
-            
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">
+              Submit Your Track
+            </h2>
+
             <div className="mb-8">
               <button
                 onClick={handleSkipQueue}
@@ -123,7 +143,9 @@ export default function LobbyPage() {
                   <Zap className="w-5 h-5" />
                   <span className="font-medium">Skip the Queue for $5</span>
                 </div>
-                <p className="text-sm opacity-90 mt-1">Get your track reviewed first!</p>
+                <p className="text-sm opacity-90 mt-1">
+                  Get your track reviewed first!
+                </p>
               </button>
             </div>
 
@@ -136,8 +158,8 @@ export default function LobbyPage() {
                 <div
                   className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
                     dragActive
-                      ? 'border-purple-500 bg-purple-500/10'
-                      : 'border-gray-600 hover:border-gray-500'
+                      ? "border-purple-500 bg-purple-500/10"
+                      : "border-gray-600 hover:border-gray-500"
                   }`}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
@@ -158,7 +180,9 @@ export default function LobbyPage() {
                     {audioFile ? (
                       <div className="flex items-center gap-2">
                         <AudioLines className="w-6 h-6 text-purple-400" />
-                        <span className="text-purple-400 font-medium">{audioFile.name}</span>
+                        <span className="text-purple-400 font-medium">
+                          {audioFile.name}
+                        </span>
                         <button
                           type="button"
                           onClick={() => setAudioFile(null)}
@@ -190,13 +214,15 @@ export default function LobbyPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div
                     className={`border-2 border-dashed rounded-lg p-4 text-center ${
-                      artworkPreview ? 'border-purple-500' : 'border-gray-600'
+                      artworkPreview ? "border-purple-500" : "border-gray-600"
                     }`}
                   >
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={(e) => handleArtworkChange(e.target.files?.[0] || null)}
+                      onChange={(e) =>
+                        handleArtworkChange(e.target.files?.[0] || null)
+                      }
                       className="hidden"
                       id="artwork-upload"
                     />
@@ -224,7 +250,9 @@ export default function LobbyPage() {
                         <div className="flex flex-col items-center py-8">
                           <ImageIcon className="w-8 h-8 text-gray-400 mb-2" />
                           <span className="text-gray-300">Add Artwork</span>
-                          <span className="text-sm text-gray-500">Optional</span>
+                          <span className="text-sm text-gray-500">
+                            Optional
+                          </span>
                         </div>
                       )}
                     </label>
@@ -243,7 +271,10 @@ export default function LobbyPage() {
 
               {/* Track Details */}
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-300">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium text-gray-300"
+                >
                   Track Title
                 </label>
                 <input
@@ -256,7 +287,10 @@ export default function LobbyPage() {
               </div>
 
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-300">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-300"
+                >
                   Description (Optional)
                 </label>
                 <textarea
@@ -271,11 +305,13 @@ export default function LobbyPage() {
                 type="submit"
                 disabled={!audioFile || isSubmitting}
                 className={`w-full px-6 py-3 bg-purple-500 hover:bg-purple-600 rounded-md text-white font-medium transition-colors flex items-center justify-center gap-2 ${
-                  (!audioFile || isSubmitting) ? 'opacity-50 cursor-not-allowed' : ''
+                  !audioFile || isSubmitting
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
                 }`}
               >
                 <Upload className="w-5 h-5" />
-                {isSubmitting ? 'Submitting...' : 'Submit Track'}
+                {isSubmitting ? "Submitting..." : "Submit Track"}
               </button>
             </form>
           </div>

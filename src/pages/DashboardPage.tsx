@@ -1,12 +1,16 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import DashboardHeader from '../components/Dashboard/DashboardHeader';
-import SubmissionsList from '../components/Dashboard/SubmissionsList';
-import VotingPhaseControl from '../components/Dashboard/VotingPhaseControl';
-import StatsOverview from '../components/Dashboard/StatsOverview';
+import React from "react";
+import { useParams } from "react-router-dom";
+import DashboardHeader from "../components/Dashboard/DashboardHeader";
+import SubmissionsList from "../components/Dashboard/SubmissionsList";
+import VotingPhaseControl from "../components/Dashboard/VotingPhaseControl";
+import StatsOverview from "../components/Dashboard/StatsOverview";
 
 export default function DashboardPage() {
   const { id } = useParams();
+
+  if (!id) {
+    return <div>Error: Battle ID is required.</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 p-6">

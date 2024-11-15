@@ -1,7 +1,15 @@
-import React from 'react';
-import { BarChart3, TrendingUp, Users } from 'lucide-react';
+import React from "react";
+import { BarChart3, TrendingUp, Users } from "lucide-react";
 
-export default function StatsOverview() {
+interface StatsOverviewProps {
+  battleId: string;
+  isFeedbackLobby?: boolean;
+}
+
+export default function StatsOverview({
+  battleId,
+  isFeedbackLobby,
+}: StatsOverviewProps) {
   return (
     <div className="bg-gray-800 rounded-lg p-6">
       <h2 className="text-xl font-semibold text-white mb-4">Overview</h2>

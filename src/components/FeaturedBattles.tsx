@@ -1,37 +1,40 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Clock, Users, HeartPulse } from 'lucide-react';
+import React from "react";
+import { useRouter } from "next/router";
+import { Clock, Users, HeartPulse } from "lucide-react";
 
 export default function FeaturedBattles() {
-  const navigate = useNavigate();
-  
+  const router = useRouter();
+
   const lobbies = [
     {
-      id: 'XYZ123',
+      id: "XYZ123",
       title: "Lo-Fi Beats Championship",
       host: "ChillBeats",
       participants: 24,
       deadline: "2h 15m",
       prize: "$500",
-      image: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?auto=format&fit=crop&q=80&w=2070",
+      image:
+        "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?auto=format&fit=crop&q=80&w=2070",
     },
     {
-      id: 'ABC456',
+      id: "ABC456",
       title: "Trap Music Feedback",
       host: "BeatMaster Pro",
       participants: 18,
       deadline: "5h 30m",
       prize: "Free",
-      image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=80&w=2070",
+      image:
+        "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=80&w=2070",
     },
     {
-      id: 'DEF789',
+      id: "DEF789",
       title: "House Music Session",
       host: "GrooveMaster",
       participants: 32,
       deadline: "12h 45m",
       prize: "$1000",
-      image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2070",
+      image:
+        "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2070",
     },
   ];
 
@@ -50,11 +53,15 @@ export default function FeaturedBattles() {
           {lobbies.map((lobby) => (
             <div
               key={lobby.id}
-              onClick={() => navigate(`/battle/${lobby.id}`)}
+              onClick={() => router.push(`/battle/${lobby.id}`)}
               className="flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105 cursor-pointer"
             >
               <div className="flex-shrink-0 h-48 relative">
-                <img className="h-full w-full object-cover" src={lobby.image} alt={lobby.title} />
+                <img
+                  className="h-full w-full object-cover"
+                  src={lobby.image}
+                  alt={lobby.title}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-500 text-white">
@@ -67,9 +74,7 @@ export default function FeaturedBattles() {
                   <h3 className="text-xl font-semibold text-white">
                     {lobby.title}
                   </h3>
-                  <p className="mt-2 text-gray-300">
-                    Hosted by {lobby.host}
-                  </p>
+                  <p className="mt-2 text-gray-300">Hosted by {lobby.host}</p>
                 </div>
                 <div className="mt-6 flex items-center justify-between">
                   <div className="flex items-center text-gray-400 text-sm">
