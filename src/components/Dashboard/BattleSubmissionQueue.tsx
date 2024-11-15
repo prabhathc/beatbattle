@@ -1,8 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Play, Pause, Music2, Clock, Star, MoreVertical, GripVertical } from 'lucide-react';
-import Image from 'next/image';
+import { SetStateAction, useState } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -11,42 +9,44 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { Track } from '@/types/track';
-import { SortableTrackItem } from './SortableTrackItem';
+} from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { Track } from "@/types/track";
+import { SortableTrackItem } from "./SortableTrackItem";
 
 interface BattleSubmissionQueueProps {
   battleId: string;
 }
 
-export default function BattleSubmissionQueue({ battleId }: BattleSubmissionQueueProps) {
+export default function BattleSubmissionQueue(
+  battleId: BattleSubmissionQueueProps
+) {
   const [currentTrack, setCurrentTrack] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [tracks, setTracks] = useState<Track[]>([
     {
-      id: '1',
-      title: 'Summer Vibes',
-      artist: 'Producer123',
-      artwork: 'https://images.unsplash.com/photo-1571330735066-03aaa9429d89',
+      id: "1",
+      title: "Summer Vibes",
+      artist: "Producer123",
+      artwork: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89",
       isPrioritized: true,
-      submittedAt: '5m ago',
-      audioUrl: '/demo.mp3',
+      submittedAt: "5m ago",
+      audioUrl: "/demo.mp3",
     },
     {
-      id: '2',
-      title: 'Late Night Beat',
-      artist: 'BeatMaker99',
+      id: "2",
+      title: "Late Night Beat",
+      artist: "BeatMaker99",
       isPrioritized: false,
-      submittedAt: '10m ago',
-      audioUrl: '/demo2.mp3',
+      submittedAt: "10m ago",
+      audioUrl: "/demo2.mp3",
     },
   ]);
 
@@ -61,9 +61,9 @@ export default function BattleSubmissionQueue({ battleId }: BattleSubmissionQueu
     setActiveId(event.active.id);
   };
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: { active: any; over: any }) => {
     const { active, over } = event;
-    
+
     if (active.id !== over?.id) {
       setTracks((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
@@ -71,7 +71,7 @@ export default function BattleSubmissionQueue({ battleId }: BattleSubmissionQueu
         return arrayMove(items, oldIndex, newIndex);
       });
     }
-    
+
     setActiveId(null);
   };
 
@@ -96,7 +96,7 @@ export default function BattleSubmissionQueue({ battleId }: BattleSubmissionQueu
         modifiers={[restrictToVerticalAxis]}
       >
         <SortableContext
-          items={tracks.map(t => t.id)}
+          items={tracks.map((t) => t.id)}
           strategy={verticalListSortingStrategy}
         >
           <div className="space-y-3">
@@ -119,7 +119,7 @@ export default function BattleSubmissionQueue({ battleId }: BattleSubmissionQueu
         <DragOverlay>
           {activeId ? (
             <div className="bg-gray-700 rounded-lg p-4 shadow-lg opacity-90">
-              {tracks.find(t => t.id === activeId)?.title}
+              {tracks.find((t) => t.id === activeId)?.title}
             </div>
           ) : null}
         </DragOverlay>

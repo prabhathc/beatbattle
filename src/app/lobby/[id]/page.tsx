@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import {
-  Music2,
   Users,
   Clock,
   Trophy,
@@ -26,7 +25,7 @@ export default function LobbyPage() {
   const lobbyId = params?.id as string;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [artwork, setArtwork] = useState<File | null>(null);
+  const [, setArtwork] = useState<File | null>(null);
   const [artworkPreview, setArtworkPreview] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
 

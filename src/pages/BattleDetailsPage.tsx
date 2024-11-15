@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import {
-  Music2,
   Users,
   Clock,
   Trophy,

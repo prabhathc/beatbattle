@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../supabase/client'
+import { createClient } from '../supabase/client'
 import { Database } from '../supabase/types'
 
 type Vote = Database['public']['Tables']['votes']['Row']
@@ -8,6 +8,7 @@ export function useVotes(battleId: string, submissionId?: string) {
   const [votes, setVotes] = useState<Vote[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
+  const supabase = createClient()
 
   useEffect(() => {
     const fetchVotes = async () => {

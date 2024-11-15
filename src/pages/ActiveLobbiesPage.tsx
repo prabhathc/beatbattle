@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { Search, Filter, Music2, Users, Clock, ArrowRight } from "lucide-react";
+import { Search, Filter, Users, Clock, ArrowRight } from "lucide-react";
 
 export default function ActiveLobbiesPage() {
   const router = useRouter();

@@ -1,39 +1,39 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { Play, Pause, SkipForward, SkipBack, Music2 } from 'lucide-react';
-import WaveSurfer from 'wavesurfer.js';
-import Image from 'next/image';
-import { Track } from '@/types/track';
+import { useEffect, useRef, useState } from "react";
+import { Play, Pause, SkipForward, SkipBack, Music2 } from "lucide-react";
+import WaveSurfer from "wavesurfer.js";
+import Image from "next/image";
+import { Track } from "@/types/track";
 
 // Using more reliable demo audio files
 const DEMO_TRACKS = [
   {
-    id: '1',
-    title: 'Summer Vibes',
-    artist: 'Producer123',
-    artwork: 'https://images.unsplash.com/photo-1571330735066-03aaa9429d89',
+    id: "1",
+    title: "slumppped",
+    artist: "geeky",
+    artwork: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89",
     isPrioritized: true,
-    submittedAt: '5m ago',
-    audioUrl: 'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
+    submittedAt: "5m ago",
+    audioUrl: "/audio/lol.wav",
   },
   {
-    id: '2',
-    title: 'Late Night Beat',
-    artist: 'BeatMaker99',
+    id: "2",
+    title: "touchdown",
+    artist: "vvs",
     isPrioritized: false,
-    submittedAt: '10m ago',
-    audioUrl: 'https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg'
-  }
+    submittedAt: "10m ago",
+    audioUrl: "/audio/touch.wav",
+  },
 ];
 
 export default function StreamView() {
-  const [queue, setQueue] = useState<Track[]>(DEMO_TRACKS);
+  const [queue] = useState<Track[]>(DEMO_TRACKS);
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const waveformRef = useRef<HTMLDivElement>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
 
@@ -47,30 +47,30 @@ export default function StreamView() {
 
         const wavesurfer = WaveSurfer.create({
           container: waveformRef.current!,
-          waveColor: 'rgba(139, 92, 246, 0.4)',
-          progressColor: 'rgba(139, 92, 246, 0.8)',
-          cursorColor: '#4c1d95',
+          waveColor: "rgba(139, 92, 246, 0.4)",
+          progressColor: "rgba(139, 92, 246, 0.8)",
+          cursorColor: "#4c1d95",
           barWidth: 2,
           barGap: 1,
           height: 60,
           barRadius: 3,
           normalize: true,
-          backend: 'WebAudio',
+          backend: "WebAudio",
           autoplay: false,
         });
 
-        wavesurfer.on('error', (err) => {
-          console.error('WaveSurfer error:', err);
-          setError('Failed to load audio file. Please try again.');
+        wavesurfer.on("error", (err) => {
+          console.error("WaveSurfer error:", err);
+          setError("Failed to load audio file. Please try again.");
           setIsLoading(false);
         });
 
-        wavesurfer.on('ready', () => {
+        wavesurfer.on("ready", () => {
           setIsLoading(false);
           setError(null);
         });
 
-        wavesurfer.on('finish', () => {
+        wavesurfer.on("finish", () => {
           setIsPlaying(false);
           handleNext();
         });
@@ -82,8 +82,8 @@ export default function StreamView() {
           setCurrentTrack(queue[0]);
         }
       } catch (err) {
-        console.error('WaveSurfer initialization error:', err);
-        setError('Failed to initialize audio player');
+        console.error("WaveSurfer initialization error:", err);
+        setError("Failed to initialize audio player");
         setIsLoading(false);
       }
     };
@@ -106,16 +106,22 @@ export default function StreamView() {
         setError(null);
         setIsPlaying(false);
 
-        // Pre-fetch the audio to check if it's accessible
-        const response = await fetch(currentTrack.audioUrl);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        // Skip pre-fetch check for local files
+        if (!currentTrack.audioUrl.startsWith("/")) {
+          // Pre-fetch remote audio files to verify accessibility
+          const response = await fetch(currentTrack.audioUrl);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
         }
 
+        // Load the audio file into WaveSurfer
         await wavesurferRef.current.load(currentTrack.audioUrl);
       } catch (err) {
-        console.error('Audio loading error:', err);
-        setError('Failed to load audio file. Please check the URL and try again.');
+        console.error("Audio loading error:", err);
+        setError(
+          "Failed to load audio file. Please check the URL and try again."
+        );
       } finally {
         setIsLoading(false);
       }
@@ -131,21 +137,25 @@ export default function StreamView() {
       wavesurferRef.current.playPause();
       setIsPlaying(!isPlaying);
     } catch (err) {
-      console.error('Playback error:', err);
-      setError('Failed to play audio. Please try again.');
+      console.error("Playback error:", err);
+      setError("Failed to play audio. Please try again.");
     }
   };
 
   const handleNext = () => {
     if (!currentTrack) return;
-    const currentIndex = queue.findIndex(track => track.id === currentTrack.id);
+    const currentIndex = queue.findIndex(
+      (track) => track.id === currentTrack.id
+    );
     const nextTrack = queue[currentIndex + 1] || queue[0];
     setCurrentTrack(nextTrack);
   };
 
   const handlePrevious = () => {
     if (!currentTrack) return;
-    const currentIndex = queue.findIndex(track => track.id === currentTrack.id);
+    const currentIndex = queue.findIndex(
+      (track) => track.id === currentTrack.id
+    );
     const prevTrack = queue[currentIndex - 1] || queue[queue.length - 1];
     setCurrentTrack(prevTrack);
   };
@@ -173,7 +183,7 @@ export default function StreamView() {
                 )}
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">
-                {currentTrack?.title || 'No track selected'}
+                {currentTrack?.title || "No track selected"}
               </h2>
               <p className="text-gray-400">{currentTrack?.artist}</p>
             </div>
@@ -228,8 +238,8 @@ export default function StreamView() {
                 onClick={() => setCurrentTrack(track)}
                 className={`flex items-center space-x-4 p-4 rounded-lg cursor-pointer transition-colors ${
                   currentTrack?.id === track.id
-                    ? 'bg-purple-500/20 border border-purple-500/50'
-                    : 'hover:bg-gray-700/50'
+                    ? "bg-purple-500/20 border border-purple-500/50"
+                    : "hover:bg-gray-700/50"
                 }`}
               >
                 <div className="relative w-12 h-12 flex-shrink-0">
@@ -247,8 +257,12 @@ export default function StreamView() {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-white font-medium truncate">{track.title}</h4>
-                  <p className="text-gray-400 text-sm truncate">{track.artist}</p>
+                  <h4 className="text-white font-medium truncate">
+                    {track.title}
+                  </h4>
+                  <p className="text-gray-400 text-sm truncate">
+                    {track.artist}
+                  </p>
                 </div>
                 {track.isPrioritized && (
                   <span className="px-2 py-1 bg-yellow-500/10 text-yellow-400 text-xs rounded-full border border-yellow-500/50">

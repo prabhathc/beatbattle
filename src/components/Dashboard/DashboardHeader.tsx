@@ -7,7 +7,9 @@ interface DashboardHeaderProps {
   isFeedbackLobby?: boolean;
 }
 
-export default function DashboardHeader({ battleId, isFeedbackLobby }: DashboardHeaderProps) {
+export default function DashboardHeader({
+  isFeedbackLobby,
+}: DashboardHeaderProps) {
   return (
     <div className="bg-gray-800 rounded-lg p-6">
       <div className="flex items-center mb-6">
@@ -22,7 +24,9 @@ export default function DashboardHeader({ battleId, isFeedbackLobby }: Dashboard
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">
-            {isFeedbackLobby ? "Producer Feedback Session" : "Summer Beat Championship"}
+            {isFeedbackLobby
+              ? "Producer Feedback Session"
+              : "Summer Beat Championship"}
           </h1>
           <p className="text-gray-400 mt-1">Organized by BeatMaster Pro</p>
         </div>

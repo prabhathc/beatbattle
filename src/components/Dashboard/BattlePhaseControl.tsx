@@ -1,51 +1,51 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Play, Vote, Trophy, Lock, Timer, AlertCircle } from 'lucide-react';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Play, Vote, Trophy, Lock, Timer, AlertCircle } from "lucide-react";
 
-type BattlePhase = 'submission' | 'voting' | 'results';
+type BattlePhase = "submission" | "voting" | "results";
 
 interface BattlePhaseControlProps {
-  battleId: string;
+  battleId?: string;
 }
 
-export default function BattlePhaseControl({ battleId }: BattlePhaseControlProps) {
-  const [currentPhase, setCurrentPhase] = useState<BattlePhase>('submission');
-  const [timeRemaining, setTimeRemaining] = useState('30:00');
+export default function BattlePhaseControl(battleId: BattlePhaseControlProps) {
+  const [currentPhase, setCurrentPhase] = useState<BattlePhase>("submission");
+  const [timeRemaining] = useState("30:00");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const phases = [
     {
-      id: 'submission',
-      title: 'Submission Phase',
-      description: 'Producers can submit their tracks',
+      id: "submission",
+      title: "Submission Phase",
+      description: "Producers can submit their tracks",
       icon: Play,
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/10',
-      borderColor: 'border-green-500/50',
+      color: "text-green-400",
+      bgColor: "bg-green-500/10",
+      borderColor: "border-green-500/50",
     },
     {
-      id: 'voting',
-      title: 'Voting Phase',
-      description: 'Audience can vote on submissions',
+      id: "voting",
+      title: "Voting Phase",
+      description: "Audience can vote on submissions",
       icon: Vote,
-      color: 'text-purple-400',
-      bgColor: 'bg-purple-500/10',
-      borderColor: 'border-purple-500/50',
+      color: "text-purple-400",
+      bgColor: "bg-purple-500/10",
+      borderColor: "border-purple-500/50",
     },
     {
-      id: 'results',
-      title: 'Results Phase',
-      description: 'Winners are announced',
+      id: "results",
+      title: "Results Phase",
+      description: "Winners are announced",
       icon: Trophy,
-      color: 'text-yellow-400',
-      bgColor: 'bg-yellow-500/10',
-      borderColor: 'border-yellow-500/50',
+      color: "text-yellow-400",
+      bgColor: "bg-yellow-500/10",
+      borderColor: "border-yellow-500/50",
     },
   ];
 
-  const handlePhaseChange = (phase: BattlePhase) => {
+  const handlePhaseChange = () => {
     setShowConfirmation(true);
   };
 
@@ -55,18 +55,22 @@ export default function BattlePhaseControl({ battleId }: BattlePhaseControlProps
   };
 
   const getCurrentPhase = () => {
-    return phases.find(phase => phase.id === currentPhase);
+    return phases.find((phase) => phase.id === currentPhase);
   };
 
   const phase = getCurrentPhase();
 
   return (
     <div className="bg-gray-800 rounded-lg p-6">
-      <h2 className="text-xl font-semibold text-white mb-6">Battle Phase Control</h2>
+      <h2 className="text-xl font-semibold text-white mb-6">
+        Battle Phase Control
+      </h2>
 
       {/* Current Phase Display */}
       {phase && (
-        <div className={`${phase.bgColor} border ${phase.borderColor} rounded-lg p-4 mb-6`}>
+        <div
+          className={`${phase.bgColor} border ${phase.borderColor} rounded-lg p-4 mb-6`}
+        >
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <phase.icon className={`w-5 h-5 ${phase.color}`} />
@@ -86,12 +90,12 @@ export default function BattlePhaseControl({ battleId }: BattlePhaseControlProps
         {phases.map((phase) => (
           <button
             key={phase.id}
-            onClick={() => handlePhaseChange(phase.id as BattlePhase)}
+            onClick={() => handlePhaseChange()}
             disabled={phase.id === currentPhase}
             className={`w-full flex items-center justify-between p-4 rounded-lg transition-colors ${
               phase.id === currentPhase
-                ? 'bg-gray-700 cursor-not-allowed'
-                : 'bg-gray-700/50 hover:bg-gray-700'
+                ? "bg-gray-700 cursor-not-allowed"
+                : "bg-gray-700/50 hover:bg-gray-700"
             }`}
           >
             <div className="flex items-center gap-3">
@@ -117,10 +121,13 @@ export default function BattlePhaseControl({ battleId }: BattlePhaseControlProps
           <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
             <div className="flex items-center gap-3 mb-4">
               <AlertCircle className="w-6 h-6 text-yellow-400" />
-              <h3 className="text-lg font-semibold text-white">Confirm Phase Change</h3>
+              <h3 className="text-lg font-semibold text-white">
+                Confirm Phase Change
+              </h3>
             </div>
             <p className="text-gray-300 mb-6">
-              Are you sure you want to change the phase? This action cannot be undone.
+              Are you sure you want to change the phase? This action cannot be
+              undone.
             </p>
             <div className="flex justify-end gap-3">
               <button
@@ -130,7 +137,7 @@ export default function BattlePhaseControl({ battleId }: BattlePhaseControlProps
                 Cancel
               </button>
               <button
-                onClick={() => confirmPhaseChange('voting')}
+                onClick={() => confirmPhaseChange("voting")}
                 className="px-4 py-2 bg-purple-500 hover:bg-purple-600 rounded-md text-white transition-colors"
               >
                 Confirm Change

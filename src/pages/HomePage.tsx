@@ -1,12 +1,12 @@
-import React from 'react';
-import Hero from '../components/Hero';
-import FeaturedBattles from '../components/FeaturedBattles';
+import React from "react";
+import Hero from "../components/ui/Hero";
+import FeaturedLobbies from "../components/ui/FeaturedLobbies";
 
 export default function HomePage() {
   return (
     <main>
       <Hero />
-      <FeaturedBattles />
+      <FeaturedLobbies />
     </main>
   );
 }

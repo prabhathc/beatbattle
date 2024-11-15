@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../supabase/client'
+import { createClient } from '../supabase/client'
 import { Database } from '../supabase/types'
 
 type Battle = Database['public']['Tables']['battles']['Row']
@@ -8,6 +8,7 @@ export function useBattle(battleId: string) {
   const [battle, setBattle] = useState<Battle | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
+  const supabase = createClient()
 
   useEffect(() => {
     const fetchBattle = async () => {

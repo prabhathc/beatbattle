@@ -1,26 +1,29 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import CreateLobbyForm from '@/components/CreateLobby/CreateLobbyForm';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FormData } from "@/components/CreateLobby/types";
+import CreateLobbyForm from "@/components/CreateLobby/CreateLobbyForm";
 
 export default function CreatePage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (formData: any) => {
+  const handleSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     // Generate a unique 6-character lobby code
+
     const lobbyCode = Array.from(
       { length: 6 },
-      () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 36)]
-    ).join('');
-    
+      () =>
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random() * 36)]
+    ).join("");
+
     // TODO: Save lobby data to backend
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     // Redirect to dashboard instead of lobby view
-    router.push(`/dashboard/${lobbyCode}`);
+    router.push(`/dashboard/${lobbyCode}?type=${data.type}`);
   };
 
   return (

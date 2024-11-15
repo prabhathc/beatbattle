@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Play, Pause, SkipForward, Music2, Clock, Star, MoreVertical, ExternalLink } from 'lucide-react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { SkipForward, Star, ExternalLink } from "lucide-react";
+import { useRouter } from "next/navigation";
 import {
   DndContext,
   DragOverlay,
@@ -12,16 +11,16 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { Track } from '@/types/track';
-import { SortableTrackItem } from './SortableTrackItem';
+} from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { Track } from "@/types/track";
+import { SortableTrackItem } from "./SortableTrackItem";
 
 interface FeedbackQueueProps {
   lobbyId: string;
@@ -34,29 +33,29 @@ export default function FeedbackQueue({ lobbyId }: FeedbackQueueProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [tracks, setTracks] = useState<Track[]>([
     {
-      id: '1',
-      title: 'Summer Vibes',
-      artist: 'Producer123',
-      artwork: 'https://images.unsplash.com/photo-1571330735066-03aaa9429d89',
+      id: "1",
+      title: "Summer Vibes",
+      artist: "Producer123",
+      artwork: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89",
       isPrioritized: true,
-      submittedAt: '5m ago',
-      audioUrl: '/demo.mp3',
+      submittedAt: "5m ago",
+      audioUrl: "/demo.mp3",
     },
     {
-      id: '2',
-      title: 'Late Night Beat',
-      artist: 'BeatMaker99',
+      id: "2",
+      title: "Late Night Beat",
+      artist: "BeatMaker99",
       isPrioritized: true,
-      submittedAt: '10m ago',
-      audioUrl: '/demo2.mp3',
+      submittedAt: "10m ago",
+      audioUrl: "/demo2.mp3",
     },
     {
-      id: '3',
-      title: 'Chill Waves',
-      artist: 'WaveMaker',
+      id: "3",
+      title: "Chill Waves",
+      artist: "WaveMaker",
       isPrioritized: false,
-      submittedAt: '15m ago',
-      audioUrl: '/demo3.mp3',
+      submittedAt: "15m ago",
+      audioUrl: "/demo3.mp3",
     },
   ]);
 
@@ -67,8 +66,8 @@ export default function FeedbackQueue({ lobbyId }: FeedbackQueueProps) {
     })
   );
 
-  const prioritizedTracks = tracks.filter(track => track.isPrioritized);
-  const regularTracks = tracks.filter(track => !track.isPrioritized);
+  const prioritizedTracks = tracks.filter((track) => track.isPrioritized);
+  const regularTracks = tracks.filter((track) => !track.isPrioritized);
 
   const handleDragStart = (event: any) => {
     setActiveId(event.active.id);
@@ -76,17 +75,16 @@ export default function FeedbackQueue({ lobbyId }: FeedbackQueueProps) {
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
-    
+
     if (active.id !== over?.id) {
       setTracks((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
-        
+
         // Check if moving from regular to priority queue
-        const isMovingToPriority = 
-          !items[oldIndex].isPrioritized && 
-          items[newIndex].isPrioritized;
-        
+        const isMovingToPriority =
+          !items[oldIndex].isPrioritized && items[newIndex].isPrioritized;
+
         if (isMovingToPriority) {
           const updatedItems = [...items];
           updatedItems[oldIndex] = {
@@ -95,17 +93,17 @@ export default function FeedbackQueue({ lobbyId }: FeedbackQueueProps) {
           };
           return arrayMove(updatedItems, oldIndex, newIndex);
         }
-        
+
         // If moving within the same queue
         if (items[oldIndex].isPrioritized === items[newIndex].isPrioritized) {
           return arrayMove(items, oldIndex, newIndex);
         }
-        
+
         // Don't allow moving from priority to regular
         return items;
       });
     }
-    
+
     setActiveId(null);
   };
 
@@ -154,11 +152,11 @@ export default function FeedbackQueue({ lobbyId }: FeedbackQueueProps) {
                 Priority Queue
               </h3>
               <SortableContext
-                items={prioritizedTracks.map(t => t.id)}
+                items={prioritizedTracks.map((t) => t.id)}
                 strategy={verticalListSortingStrategy}
               >
                 <div className="space-y-3">
-                  {prioritizedTracks.map(track => (
+                  {prioritizedTracks.map((track) => (
                     <SortableTrackItem
                       key={track.id}
                       track={track}
@@ -179,11 +177,11 @@ export default function FeedbackQueue({ lobbyId }: FeedbackQueueProps) {
           <div className="space-y-4">
             <h3 className="text-sm font-medium text-gray-400">Regular Queue</h3>
             <SortableContext
-              items={regularTracks.map(t => t.id)}
+              items={regularTracks.map((t) => t.id)}
               strategy={verticalListSortingStrategy}
             >
               <div className="space-y-3">
-                {regularTracks.map(track => (
+                {regularTracks.map((track) => (
                   <SortableTrackItem
                     key={track.id}
                     track={track}
@@ -204,7 +202,7 @@ export default function FeedbackQueue({ lobbyId }: FeedbackQueueProps) {
         <DragOverlay>
           {activeId ? (
             <div className="bg-gray-700 rounded-lg p-4 shadow-lg opacity-90">
-              {tracks.find(t => t.id === activeId)?.title}
+              {tracks.find((t) => t.id === activeId)?.title}
             </div>
           ) : null}
         </DragOverlay>
