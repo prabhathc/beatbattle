@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { AuthProvider } from "@/providers/AuthProvider";
 import Navbar from "@/components/ui/Navbar";
 import "./globals.css";
 
@@ -16,16 +16,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Check if the current URL contains '/stream-view'
   const isStreamView = typeof window !== 'undefined' && window.location.pathname.includes('/stream-view');
 
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen bg-gray-900`}>
-        <UserProvider>
+        <AuthProvider>
           {!isStreamView && <Navbar />}
           <main>{children}</main>
-        </UserProvider>
+        </AuthProvider>
       </body>
     </html>
   );

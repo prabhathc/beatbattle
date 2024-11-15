@@ -7,7 +7,7 @@ interface DashboardHeaderProps {
   isFeedbackLobby?: boolean;
 }
 
-export default function DashboardHeader({ battleId }: DashboardHeaderProps) {
+export default function DashboardHeader({ battleId, isFeedbackLobby }: DashboardHeaderProps) {
   return (
     <div className="bg-gray-800 rounded-lg p-6">
       <div className="flex items-center mb-6">
@@ -22,14 +22,14 @@ export default function DashboardHeader({ battleId }: DashboardHeaderProps) {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">
-            Summer Beat Championship
+            {isFeedbackLobby ? "Producer Feedback Session" : "Summer Beat Championship"}
           </h1>
           <p className="text-gray-400 mt-1">Organized by BeatMaster Pro</p>
         </div>
         <div className="mt-4 lg:mt-0">
           <button className="inline-flex items-center px-4 py-2 bg-purple-500 hover:bg-purple-600 rounded-md text-white transition-colors">
             <Settings className="w-4 h-4 mr-2" />
-            Battle Settings
+            {isFeedbackLobby ? "Session Settings" : "Battle Settings"}
           </button>
         </div>
       </div>
@@ -44,16 +44,30 @@ export default function DashboardHeader({ battleId }: DashboardHeaderProps) {
         <div className="flex items-center space-x-3 bg-gray-700/50 rounded-lg p-4">
           <Users className="w-5 h-5 text-purple-400" />
           <div>
-            <p className="text-sm text-gray-400">Participants</p>
+            <p className="text-sm text-gray-400">
+              {isFeedbackLobby ? "Queue Size" : "Participants"}
+            </p>
             <p className="text-lg font-semibold text-white">24</p>
           </div>
         </div>
         <div className="flex items-center space-x-3 bg-gray-700/50 rounded-lg p-4">
-          <Trophy className="w-5 h-5 text-purple-400" />
-          <div>
-            <p className="text-sm text-gray-400">Prize Pool</p>
-            <p className="text-lg font-semibold text-white">$500</p>
-          </div>
+          {isFeedbackLobby ? (
+            <>
+              <Users className="w-5 h-5 text-purple-400" />
+              <div>
+                <p className="text-sm text-gray-400">Active Listeners</p>
+                <p className="text-lg font-semibold text-white">156</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <Trophy className="w-5 h-5 text-purple-400" />
+              <div>
+                <p className="text-sm text-gray-400">Prize Pool</p>
+                <p className="text-lg font-semibold text-white">$500</p>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
