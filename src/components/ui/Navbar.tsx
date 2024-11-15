@@ -2,12 +2,108 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Music2, TrendingUp, Users, Trophy, Menu } from 'lucide-react';
+import { 
+  Music2, 
+  TrendingUp, 
+  Users, 
+  Trophy, 
+  Menu,
+  User,
+  Settings,
+  PlusCircle,
+  Bell,
+  X,
+  ChevronRight
+} from 'lucide-react';
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  const menuItems = [
+    {
+      title: 'Profile',
+      icon: User,
+      href: '/profile',
+    },
+    {
+      title: 'Create Lobby',
+      icon: PlusCircle,
+      href: '/create',
+      highlight: true,
+    },
+    {
+      title: 'Notifications',
+      icon: Bell,
+      href: '/notifications',
+    },
+    {
+      title: 'Settings',
+      icon: Settings,
+      href: '/settings',
+    },
+  ];
+
+  const DesktopMenu = () => (
+    <AnimatePresence>
+      {isDesktopMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsDesktopMenuOpen(false)}
+            className="fixed inset-0 bg-black/50 z-40 hidden md:block"
+          />
+          
+          {/* Menu Panel */}
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 20 }}
+            className="fixed right-0 top-0 h-full w-80 bg-gray-800 border-l border-gray-700 z-50 hidden md:block"
+          >
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-white">Menu</h2>
+                <button
+                  onClick={() => setIsDesktopMenuOpen(false)}
+                  className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-400" />
+                </button>
+              </div>
+
+              <div className="space-y-2">
+                {menuItems.map((item) => (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    className={`flex items-center justify-between w-full p-3 rounded-lg transition-colors ${
+                      item.highlight
+                        ? 'bg-purple-500 hover:bg-purple-600 text-white'
+                        : 'hover:bg-gray-700 text-gray-300 hover:text-white'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <item.icon className="w-5 h-5" />
+                      <span>{item.title}</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
 
   return (
     <nav className="bg-gradient-to-r from-purple-900 to-indigo-900 text-white border-b border-white/10">
@@ -52,19 +148,17 @@ export default function Navbar() {
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6">
-              <Link
-                href="/create"
-                className={`bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  pathname === '/create' ? 'bg-purple-600' : ''
-                }`}
+              <button
+                onClick={() => setIsDesktopMenuOpen(true)}
+                className="p-2 hover:bg-purple-800 rounded-md transition-colors"
               >
-                Create Lobby
-              </Link>
+                <Menu className="w-5 h-5" />
+              </button>
             </div>
           </div>
           <div className="md:hidden">
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md hover:bg-purple-800 focus:outline-none"
             >
               <Menu className="h-6 w-6" />
@@ -73,7 +167,8 @@ export default function Navbar() {
         </div>
       </div>
 
-      {isOpen && (
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
@@ -97,15 +192,26 @@ export default function Navbar() {
               <Users className="h-4 w-4 mr-2" />
               Communities
             </Link>
-            <Link
-              href="/create"
-              className="block px-3 py-2 rounded-md text-sm font-medium bg-purple-500 hover:bg-purple-600"
-            >
-              Create Lobby
-            </Link>
+            {menuItems.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
+                  item.highlight
+                    ? 'bg-purple-500 hover:bg-purple-600'
+                    : 'hover:bg-purple-800'
+                }`}
+              >
+                <item.icon className="h-4 w-4 mr-2" />
+                {item.title}
+              </Link>
+            ))}
           </div>
         </div>
       )}
+
+      {/* Desktop Slide-out Menu */}
+      <DesktopMenu />
     </nav>
   );
 }
